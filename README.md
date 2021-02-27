@@ -1,2 +1,2 @@
-# xLuaUse
+# XLuaUse
 Use XLua for Lua development.

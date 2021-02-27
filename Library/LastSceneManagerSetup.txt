@@ -1,4 +1,0 @@
-sceneSetups:
-- path: Assets/XLua/Tutorial/LoadLuaScript/ByString/ByString.unity
-  isLoaded: 1
-  isActive: 1

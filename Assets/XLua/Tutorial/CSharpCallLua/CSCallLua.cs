@@ -18,33 +18,33 @@ namespace Tutorial
     {
         LuaEnv luaenv = null;
         string script = @"
-        a = 1
-        b = 'hello world'
-        c = true
+            a = 1
+            b = 'hello world'
+            c = true
 
-        d = {
-           f1 = 12, f2 = 34, 
-           1, 2, 3,
-           add = function(self, a, b) 
-              print('d.add called')
-              return a + b 
-           end
-        }
+            d = {
+                f1 = 12, f2 = 34, 
+                1, 2, 3,
+                add = function(self, a, b) 
+                    print('d.add called')
+                    return a + b 
+                end
+            }
 
-        function e()
-            print('i am e')
-        end
+            function e()
+                print('i am e')
+            end
 
-        function f(a, b)
-            print('a', a, 'b', b)
-            return 1, {f1 = 1024}
-        end
+            function f(a, b)
+                print('a', a, 'b', b)
+                return 1, {f1 = 1024}
+            end
         
-        function ret_e()
-            print('ret_e called')
-            return e
-        end
-    ";
+            function ret_e()
+                print('ret_e called')
+                return e
+            end
+        ";
 
         public class DClass
         {
@@ -75,7 +75,6 @@ namespace Tutorial
             Debug.Log("_G.a = " + luaenv.Global.Get<int>("a"));
             Debug.Log("_G.b = " + luaenv.Global.Get<string>("b"));
             Debug.Log("_G.c = " + luaenv.Global.Get<bool>("c"));
-
 
             DClass d = luaenv.Global.Get<DClass>("d");//映射到有对应字段的class，by value
             Debug.Log("_G.d = {f1=" + d.f1 + ", f2=" + d.f2 + "}");

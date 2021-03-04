@@ -14,7 +14,8 @@ using System.Collections.Generic;
 
 namespace Tutorial
 {
-	[LuaCallCSharp]
+    //基类，添加了“导入标签”
+    [LuaCallCSharp]
 	public class BaseClass
 	{
 		public static void BSFunc()
@@ -38,6 +39,7 @@ namespace Tutorial
 		public string y;
 	}
 
+    //枚举，添加了“导入标签”
 	[LuaCallCSharp]
 	public enum TestEnum
 	{
@@ -45,11 +47,13 @@ namespace Tutorial
 		E2
 	}
 
-
+    //子类，添加了“导入标签”
 	[LuaCallCSharp]
 	public class DerivedClass : BaseClass
 	{
-		[LuaCallCSharp]
+        //子类内枚举，添加了“导入标签”
+        //经过代码调试，这里不添加也是可以的
+		//[LuaCallCSharp]
 		public enum TestEnumInner
 		{
 			E3,
@@ -78,12 +82,12 @@ namespace Tutorial
 
 		public void TestFunc(int i)
 		{
-			Debug.Log("TestFunc(int i)");
+			Debug.Log("TestFunc(int i)"+ i);
 		}
 
 		public void TestFunc(string i)
 		{
-			Debug.Log("TestFunc(string i)");
+			Debug.Log("TestFunc(string i)" + i);
 		}
 
 		public static DerivedClass operator +(DerivedClass a, DerivedClass b)
@@ -197,9 +201,11 @@ public class LuaCallCs : MonoBehaviour
 
             --访问成员属性，方法
             local DerivedClass = CS.Tutorial.DerivedClass
+            --Lua中，实例化C#对象，直接用类加()即可
             local testobj = DerivedClass()
             testobj.DMF = 1024--设置成员属性
             print(testobj.DMF)--读取成员属性
+            --Lua中，调用方法时，使用冒号:
             testobj:DMFunc()--成员方法
 
             --基类属性，方法
@@ -212,7 +218,7 @@ public class LuaCallCs : MonoBehaviour
 
             --复杂方法调用
             local ret, p2, p3, csfunc = testobj:ComplexFunc({x=3, y = 'john'}, 100, function()
-               print('i am lua callback')
+                print('i am lua callback')
             end)
             print('ComplexFunc ret:', ret, p2, p3, csfunc)
             csfunc()
@@ -240,9 +246,9 @@ public class LuaCallCs : MonoBehaviour
 
             --枚举类型
             local e = testobj:EnumTestFunc(CS.Tutorial.TestEnum.E1)
-            print(e, e == CS.Tutorial.TestEnum.E2)
+            print('66666666', e, e == CS.Tutorial.TestEnum.E2)
             print(CS.Tutorial.TestEnum.__CastFrom(1), CS.Tutorial.TestEnum.__CastFrom('E1'))
-            print(CS.Tutorial.DerivedClass.TestEnumInner.E3)
+            print(CS.Tutorial.DerivedClass.TestEnumInner.E4)
             assert(CS.Tutorial.BaseClass.TestEnumInner == nil)
 
             --Delegate
@@ -251,9 +257,9 @@ public class LuaCallCs : MonoBehaviour
                 print('TestDelegate in lua:', str)
             end
             testobj.TestDelegate = lua_delegate + testobj.TestDelegate --combine，这里演示的是C#delegate作为右值，左值也支持
-            testobj.TestDelegate('hello')
+            testobj.TestDelegate('hello-123')
             testobj.TestDelegate = testobj.TestDelegate - lua_delegate --remove
-            testobj.TestDelegate('hello')
+            testobj.TestDelegate('hello-456')
 
             --事件
             local function lua_event_callback1() print('lua_event_callback1') end
@@ -265,6 +271,7 @@ public class LuaCallCs : MonoBehaviour
             testobj:TestEvent('-', lua_event_callback1)
             testobj:CallEvent()
             testobj:TestEvent('-', lua_event_callback2)
+            --testobj:CallEvent()
 
             --64位支持
             local l = testobj:TestLong(11)
@@ -280,16 +287,16 @@ public class LuaCallCs : MonoBehaviour
             cast(calc, typeof(CS.Tutorial.ICalc))
             print('cast to interface ICalc', calc:add(1, 2))
             assert(calc.id == nil)
-       end
+        end
 
-       demo()
+        demo()
 
-       --协程下使用
-       local co = coroutine.create(function()
-           print('------------------------------------------------------')
-           demo()
-       end)
-       assert(coroutine.resume(co))
+        --协程下使用
+        local co = coroutine.create(function()
+            print('------------------------------------------------------')
+            demo()
+        end)
+        assert(coroutine.resume(co))
     ";
 
 	// Use this for initialization

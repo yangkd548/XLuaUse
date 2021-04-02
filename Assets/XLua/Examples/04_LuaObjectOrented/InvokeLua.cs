@@ -51,40 +51,40 @@ namespace XLuaTest
                         end,
                         
                         add_PropertyChanged = function(self, delegate)
-	                        if self.notifylist == nil then
-		                        self.notifylist = {}
-	                        end
-	                        table.insert(self.notifylist, delegate)
+                            if self.notifylist == nil then
+                                self.notifylist = {}
+                            end
+                            table.insert(self.notifylist, delegate)
                             print('add',delegate)
                         end,
                                                 
                         remove_PropertyChanged = function(self, delegate)
                             for i=1, #self.notifylist do
-		                        if CS.System.Object.Equals(self.notifylist[i], delegate) then
-			                        table.remove(self.notifylist, i)
-			                        break
-		                        end
-	                        end
+                                if CS.System.Object.Equals(self.notifylist[i], delegate) then
+                                    table.remove(self.notifylist, i)
+                                    break
+                                end
+                            end
                             print('remove', delegate)
                         end,
 
                         notify = function(self, evt)
-	                        if self.notifylist ~= nil then
-		                        for i=1, #self.notifylist do
-			                        self.notifylist[i](self, evt)
-		                        end
-	                        end	
+                            if self.notifylist ~= nil then
+                                for i=1, #self.notifylist do
+                                    self.notifylist[i](self, evt)
+                                end
+                            end    
                         end,
                     }
                 }
 
                 Calc = {
-	                New = function (mult, ...)
+                    New = function (mult, ...)
                         print(...)
                         return setmetatable({Mult = mult, list = {'aaaa','bbbb','cccc'}}, calc_mt)
                     end
                 }
-	        ";
+            ";
         // Use this for initialization
         void Start()
         {

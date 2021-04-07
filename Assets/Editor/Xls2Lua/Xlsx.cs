@@ -1,8 +1,6 @@
 using System.IO;
 using System.Collections.Generic;
 using OfficeOpenXml;
-using LitJson;
-using UnityEngine;
 
 public class Xlsx{
 	private Dictionary<string, ExcelWorksheet> dict;
